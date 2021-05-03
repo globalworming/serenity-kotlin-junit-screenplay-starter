@@ -1,5 +1,5 @@
 # Serenity JUnit Screenplay Starter project
-*no cucumbers where harmed during development*
+*no cucumbers were harmed during development*
   
 This is a minimalistic com.example using Serenity BDD with the screenplay patter but without Cucumber. It shows how actors with different abilities can work on different interfaces in isolation or in collaboration. 
 
