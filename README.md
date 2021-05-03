@@ -7,8 +7,8 @@ This is a minimalistic com.example using Serenity BDD with the screenplay patter
 
 Git:
 
-    git git@github.com:globalworming/serenity-junit-screenplay-starter.git
-    cd serenity-junit-screenplay-starter
+    git git@github.com:globalworming/serenity-kotlin-junit-screenplay-starter.git
+    cd serenity-kotlin-junit-screenplay-starter
 
 ## Use Maven
 
@@ -19,7 +19,7 @@ Open a command window and run:
 
 ## Viewing the reports
 
-Both of the commands provided above will produce a Serenity test report in the `target/site/serenity` directory. Go take a look!
+Serenity test reports are in the `target/site/serenity` directory. Go take a look!
 
 # Need help?
 
