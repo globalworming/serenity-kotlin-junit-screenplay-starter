@@ -25,4 +25,17 @@ class ActorTest {
     })
     assertThat(actor.hasPerformedTask, `is`(true))
   }
+
+  @Test
+  internal fun `actor asks question`() {
+    val actor = Actor()
+    val answer = actor.asks(object : Question {
+      override fun answer(): Any {
+        return true
+      }
+    })
+
+    assertThat(answer, `is`(true))
+    assertThat(actor.hasAnswerdedQuestion, `is`(true))
+  }
 }
