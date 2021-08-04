@@ -1,4 +1,7 @@
-class Actor(var hasPerformedTask: Boolean = false, var hasAnswerdedQuestion: Boolean = false) {
+class Actor(
+    var hasPerformedTask: Boolean = false,
+    var hasAnswerdedQuestion: Boolean = false,
+    val canAnswerQuestions: Boolean = false) {
 
 
   fun perform(performable: Performable) {
