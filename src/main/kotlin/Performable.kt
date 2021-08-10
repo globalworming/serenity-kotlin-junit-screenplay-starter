@@ -1,5 +1,5 @@
 interface Performable {
 
-  fun perform()
+  fun performAs(actor: Actor)
 
 }

@@ -1,19 +1,7 @@
-class Actor(
-    var hasPerformedTask: Boolean = false,
-    var hasAnswerdedQuestion: Boolean = false,
-    val canAnswerQuestions: Boolean = false) {
+class Actor(val ability: Ability? = null) {
 
 
-  fun perform(performable: Performable) {
-    performable.perform()
-    hasPerformedTask = true
-  }
+  fun perform(performable: Performable) = performable.performAs(this)
 
-  fun asks(question: Question): Any {
-    val answer = question.answer()
-    hasAnswerdedQuestion = true
-    return answer
-  }
-
-  val ability: Ability? = object : Ability {}
+  fun asks(question: Question): Any = question.answerAs(this)
 }
