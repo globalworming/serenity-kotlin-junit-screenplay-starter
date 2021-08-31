@@ -18,6 +18,10 @@ class CompareScreenshotsIT {
   @Managed(driver = "chrome")
   private lateinit var aBrowser: WebDriver
 
+  /**
+   * naive example of a failing screenshot comparison
+   * would need to be extended to only screenshot specific elements, see implementation CreateSnapshot
+   */
   @Test
   fun `when comparing full size page`() {
     val tester = Actor("tester")
