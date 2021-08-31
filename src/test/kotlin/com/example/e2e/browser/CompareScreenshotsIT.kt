@@ -1,22 +1,13 @@
 package com.example.e2e.browser
 
 import com.example.screenplay.question.image.NoDifferenceToSnapshot
-import net.serenitybdd.junit.runners.SerenityRunner
-import net.serenitybdd.screenplay.Actor
 import net.serenitybdd.screenplay.GivenWhenThen.*
-import net.serenitybdd.screenplay.abilities.BrowseTheWeb
 import net.serenitybdd.screenplay.actions.Open
-import net.thucydides.core.annotations.Managed
+import net.serenitybdd.screenplay.actors.OnlineCast
 import org.hamcrest.CoreMatchers.*
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.openqa.selenium.WebDriver
+import org.junit.jupiter.api.Test
 
-@RunWith(SerenityRunner::class)
 class CompareScreenshotsIT {
-
-  @Managed(driver = "chrome")
-  private lateinit var aBrowser: WebDriver
 
   /**
    * naive example of a failing screenshot comparison
@@ -24,8 +15,7 @@ class CompareScreenshotsIT {
    */
   @Test
   fun `when comparing full size page`() {
-    val tester = Actor("tester")
-    tester.can(BrowseTheWeb.with(aBrowser))
+    val tester = OnlineCast().actorNamed("tester")
     tester.attemptsTo(Open.url("https://www.gns.cri.nz/Home/Our-Science/Energy-Futures/Oil-and-Gas/Petroleum-Basin-Explorer"))
     tester.should(seeThat(NoDifferenceToSnapshot("homepage.png"), `is`(true)))
   }
