@@ -10,15 +10,25 @@ import com.example.screenplay.action.ReceiveMagicLinkEmail
 import com.example.screenplay.actor.Memory
 import com.example.screenplay.question.TheyAreLoggedIn
 import com.example.screenplay.question.TooManyRequestsMessageIsVisible
-import net.serenitybdd.junit.runners.SerenityRunner
+import net.serenitybdd.junit5.SerenityJUnit5Extension
 import net.serenitybdd.screenplay.GivenWhenThen.*
 import net.serenitybdd.screenplay.actions.Open
+import net.thucydides.core.annotations.Narrative
 import org.hamcrest.CoreMatchers.*
-import org.junit.Assert
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import kotlin.test.fail
 
-@RunWith(SerenityRunner::class)
+
+@Narrative(
+  text = ["lichess stores a session cookie.",
+    "lichess has magic mail login.",
+    "lichess has captcha.",
+    "lichess has very accessible UI components.",
+    "lichess has some interesting browser automation protection.", "have fun :)"]
+)
+@ExtendWith(SerenityJUnit5Extension::class)
 class LichessAuthIT : LichessBase() {
 
 
@@ -34,10 +44,11 @@ class LichessAuthIT : LichessBase() {
         return
       }
     }
-    Assert.fail()
+    fail()
   }
 
   @Test
+  @Disabled
   fun `where we login via email magic link`() {
     givenThat(host).wasAbleTo(ReceiveMagicLinkEmail())
     host.attemptsTo(NavigateToMagicMailLink())
@@ -49,7 +60,8 @@ class LichessAuthIT : LichessBase() {
   fun `where reusing browser session cookie skips login form`() {
     host.attemptsTo(LoginSuccessfully())
     guest.attemptsTo(
-        LoginSuccessfullyUsingAuthCookie(host.recall(Memory.AUTH_COOKIE_VALUE)))
+      LoginSuccessfullyUsingAuthCookie(host.recall(Memory.AUTH_COOKIE_VALUE))
+    )
     guest.should(seeThat<Boolean>(TheyAreLoggedIn()))
   }
 

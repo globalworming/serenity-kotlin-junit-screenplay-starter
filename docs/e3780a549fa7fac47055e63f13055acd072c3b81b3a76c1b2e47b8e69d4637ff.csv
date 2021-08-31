@@ -1,0 +1,3 @@
+"Story","Title","Result","Date","Stability","Duration (s)"
+"Lichess auth IT","where too many logins from same IP triggers too-many-requests","ABORTED","2022-02-01T22:21:36.998421+01:00[Europe/Berlin]","0.0","1.94"
+"Lichess auth IT","where reusing browser session cookie skips login form","ABORTED","2022-02-01T22:21:42.39717+01:00[Europe/Berlin]","0.0","0.01"

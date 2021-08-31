@@ -1,0 +1,6 @@
+"Story","Title","Result","Date","Stability","Duration (s)"
+"Hello world service IT","when checking health","COMPROMISED","2022-02-01T22:21:44.973+01:00[Europe/Berlin]","0.0","0.85"
+"Json place holder IT","when there are many posts","SUCCESS","2022-02-01T22:21:50.210747+01:00[Europe/Berlin]","0.0","0.49"
+"Lichess tutorial IT","when playing the first tutorial, part one","ABORTED","2022-02-01T22:21:41.705008+01:00[Europe/Berlin]","0.0","0.06"
+"Lichess tutorial IT","when playing the first tutorial, part two","ABORTED","2022-02-01T22:21:41.822811+01:00[Europe/Berlin]","0.0","0.02"
+"Lichess auth IT","where reusing browser session cookie skips login form","ABORTED","2022-02-01T22:21:42.39717+01:00[Europe/Berlin]","0.0","0.01"

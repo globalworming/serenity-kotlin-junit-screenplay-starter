@@ -7,11 +7,12 @@ import net.serenitybdd.screenplay.targets.Target
 
 class TooManyRequestsMessageIsVisible : QuestionWithDefaultSubject<Boolean>() {
 
-  val loginForm = Target.the("login form").locatedBy("body form.form3")
+  private val loginForm: Target = Target.the("login form").locatedBy("body form.form3")
 
 
   override fun answeredBy(actor: Actor): Boolean {
-    return Visibility.of(loginForm).viewedBy(actor).asBoolean() && Text.of(loginForm).viewedBy(actor).asString().contains("many requests")
+    return Visibility.of(loginForm).asBoolean().answeredBy(actor) && Text.of(loginForm).asString().answeredBy(actor)
+      .contains("many requests")
   }
 
 }

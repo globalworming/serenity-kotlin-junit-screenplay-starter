@@ -10,7 +10,6 @@ import net.serenitybdd.screenplay.matchers.WebElementStateMatchers.*
 import net.serenitybdd.screenplay.questions.WebElementQuestion.*
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.WebElement
 import org.openqa.selenium.interactions.Actions
 
 open class FinishTutorial : Performable {
@@ -21,33 +20,34 @@ open class FinishTutorial : Performable {
   private val steps = mutableListOf<Map.Entry<Int, Int>>()
 
   private val selectRook = Task.where<Performable>(
-      "{0} selects rook",
-      object : Performable {
-        override fun <T : Actor?> performAs(actor: T) {
-          selectRook(BrowseTheWeb.`as`(actor).driver, rookSelector)
-        }
+    "{0} selects rook",
+    object : Performable {
+      override fun <T : Actor?> performAs(actor: T) {
+        selectRook(BrowseTheWeb.`as`(actor).driver, rookSelector)
       }
+    }
   )
   private val moveToReachableStar = Task.where<Performable>(
-      "{0} moves to first reachable star",
-      object : Performable {
-        override fun <T : Actor> performAs(actor: T) {
-          `move to star remembering step`(actor, reachableStarSelector)
-        }
+    "{0} moves to first reachable star",
+    object : Performable {
+      override fun <T : Actor> performAs(actor: T) {
+        `move to star remembering step`(actor, reachableStarSelector)
       }
+    }
   )
 
   override fun <T : Actor> performAs(actor: T) {
     val driver = BrowseTheWeb.`as`(actor).driver
     actor.attemptsTo(selectRook)
-    val stars = driver.findElements<WebElement>(starsSelector)
+    val stars = driver.findElements(starsSelector)
     repeat(stars.size) {
-      val reachableStars = driver.findElements<WebElement>(reachableStarSelector)
+      val reachableStars = driver.findElements(reachableStarSelector)
       val hasReachableStar = reachableStars.size > 0
       if (hasReachableStar) {
         actor.attemptsTo(moveToReachableStar)
       } else {
-        Actions(driver).moveToElement(driver.findElement(rookSelector)).moveByOffset(steps.last().key, steps.last().value).click().build().perform()
+        Actions(driver).moveToElement(driver.findElement(rookSelector))
+          .moveByOffset(steps.last().key, steps.last().value).click().build().perform()
         `move to star remembering step`(actor, reachableStarSelector)
       }
     }
@@ -60,13 +60,23 @@ open class FinishTutorial : Performable {
 
   private fun `move to star remembering step`(actor: Actor, reachableStarSelector: By?) {
     val driver = BrowseTheWeb.`as`(actor).driver
-    val currentField = driver.findElement<WebElement>(rookSelector).getAttribute("data-key")
-    val reachableStar = driver.findElement<WebElement>(reachableStarSelector)
-    steps.add(buildStep(driver.findElement<WebElement>(rookSelector).location.getX() - reachableStar.location.getX(), driver.findElement<WebElement>(rookSelector).location.getY() - reachableStar.location.getY()))
+    val currentField = driver.findElement(rookSelector).getAttribute("data-key")
+    val reachableStar = driver.findElement(reachableStarSelector)
+    steps.add(
+      buildStep(
+        driver.findElement(rookSelector).location.getX() - reachableStar.location.getX(),
+        driver.findElement(rookSelector).location.getY() - reachableStar.location.getY()
+      )
+    )
     Actions(driver).moveToElement(reachableStar).click().build().perform()
-    actor.should(eventually(seeThat(
-        the("body [data-key=\"$currentField\"]"),
-        isNotPresent())))
+    actor.should(
+      eventually(
+        seeThat(
+          the("body [data-key=\"$currentField\"]"),
+          isNotPresent()
+        )
+      )
+    )
 
   }
 

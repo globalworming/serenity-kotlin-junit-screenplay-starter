@@ -1,0 +1,4 @@
+"Story","Title","Result","Date","Stability","Duration (s)"
+"Lichess invitation IT","when we invite a friend to play","ABORTED","2022-02-01T22:21:36.477297+01:00[Europe/Berlin]","0.0","2.35"
+"Lichess tutorial IT","when playing the first tutorial, the rest","ABORTED","2022-02-01T22:21:36.543104+01:00[Europe/Berlin]","0.0","1.92"
+"Lichess auth IT","where too many logins from same IP triggers too-many-requests","ABORTED","2022-02-01T22:21:36.998421+01:00[Europe/Berlin]","0.0","1.94"

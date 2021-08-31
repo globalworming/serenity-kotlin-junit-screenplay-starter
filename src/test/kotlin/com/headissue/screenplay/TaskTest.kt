@@ -3,7 +3,8 @@ package com.headissue.screenplay
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.impl.annotations.SpyK
 import io.mockk.verify
-import org.junit.Test
+import org.junit.jupiter.api.Test
+
 
 class TaskTest : MockkSetup() {
 

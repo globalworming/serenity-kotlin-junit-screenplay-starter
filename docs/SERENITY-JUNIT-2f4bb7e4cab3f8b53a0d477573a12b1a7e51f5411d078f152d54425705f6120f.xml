@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><testsuite errors="0" failures="0" name="com.example.e2e.api.HelloWorldServiceIT" skipped="1" tests="1" time="0.85" timestamp="2022-02-01 10:21:44"><testcase classname="com.example.e2e.api.HelloWorldServiceIT" name="when checking health"><compromised message="Failed to connect to localhost/0:0:0:0:0:0:0:1:8001" type="net.serenitybdd.core.exceptions.TestCompromisedException">Failed to connect to localhost/0:0:0:0:0:0:0:1:8001</compromised><system-err>Failed to connect to localhost/0:0:0:0:0:0:0:1:8001
+serenity.junit.screenplay.starter@1.0.0-SNAPSHOT/com.example.screenplay.question.api.WorldServiceHealth.answeredBy(WorldServiceHealth.kt:18)
+serenity.junit.screenplay.starter@1.0.0-SNAPSHOT/com.example.screenplay.question.api.WorldServiceHealth.answeredBy(WorldServiceHealth.kt:10)
+serenity.junit.screenplay.starter@1.0.0-SNAPSHOT/com.example.e2e.api.HelloWorldServiceIT.when checking health(HelloWorldServiceIT.kt:16)
+</system-err></testcase></testsuite>

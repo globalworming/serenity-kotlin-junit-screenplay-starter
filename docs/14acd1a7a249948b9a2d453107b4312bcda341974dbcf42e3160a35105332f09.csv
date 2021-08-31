@@ -1,0 +1,3 @@
+"Story","Title","Result","Date","Stability","Duration (s)"
+"Hello world service IT","when checking health","COMPROMISED","2022-02-01T22:21:44.973+01:00[Europe/Berlin]","0.0","0.85"
+"Json place holder IT","when there are many posts","SUCCESS","2022-02-01T22:21:50.210747+01:00[Europe/Berlin]","0.0","0.49"

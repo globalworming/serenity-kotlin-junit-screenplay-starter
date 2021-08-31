@@ -6,7 +6,8 @@ import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.impl.annotations.SpyK
 import io.mockk.verify
 import org.junit.Assert.*
-import org.junit.Test
+import org.junit.jupiter.api.Test
+
 import org.openqa.selenium.WebDriver
 
 class AbilityTest : MockkSetup() {

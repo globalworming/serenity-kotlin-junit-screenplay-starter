@@ -5,7 +5,8 @@ import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.verify
 import org.hamcrest.MatcherAssert
 import org.hamcrest.Matchers
-import org.junit.Test
+import org.junit.jupiter.api.Test
+
 
 class ActorTest : MockkSetup() {
 

@@ -13,8 +13,8 @@ import org.hamcrest.CoreMatchers.*
 
 open class ReceiveMagicLinkEmail : Performable {
 
-  val successMessage = Target.the("heading with green tick")
-      .locatedBy("body h1.is-green")
+  private val successMessage: Target = Target.the("heading with green tick")
+    .locatedBy("body h1.is-green")
 
   override fun <T : Actor> performAs(actor: T) {
     actor.attemptsTo(NavigateToLoginPage())

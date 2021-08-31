@@ -9,7 +9,7 @@ import net.serenitybdd.screenplay.targets.Target
 
 
 open class AcceptsInvitation(val url: String) : Performable {
-  val acceptChallenge = Target.the("accept challenge button").locatedBy(".challenge-page button")
+  private val acceptChallenge: Target = Target.the("accept challenge button").locatedBy(".challenge-page button")
 
   override fun <T : Actor> performAs(actor: T) {
     actor.attemptsTo(Open.url(url), Click.on(acceptChallenge))

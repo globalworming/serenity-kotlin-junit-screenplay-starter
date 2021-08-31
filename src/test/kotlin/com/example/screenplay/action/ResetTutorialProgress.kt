@@ -11,14 +11,18 @@ import net.serenitybdd.screenplay.targets.Target
 
 open class ResetTutorialProgress : SilentPerformable() {
 
-  val resetProgress = Target.the("reset progress in the sidebar").locatedBy(".learn__side-home .actions .confirm")
+  private val resetProgress: Target =
+    Target.the("reset progress in the sidebar").locatedBy(".learn__side-home .actions .confirm")
 
 
   override fun <T : Actor> performAs(actor: T) {
     actor.attemptsTo(Open.url("https://lichess.org/learn#/"))
-    actor.attemptsTo(Check.whether(
+    actor.attemptsTo(
+      Check.whether(
         WebElementQuestion.the(resetProgress),
-        WebElementStateMatchers.isPresent()).andIfSo(Click.on(resetProgress)))
+        WebElementStateMatchers.isPresent()
+      ).andIfSo(Click.on(resetProgress))
+    )
   }
 
 }

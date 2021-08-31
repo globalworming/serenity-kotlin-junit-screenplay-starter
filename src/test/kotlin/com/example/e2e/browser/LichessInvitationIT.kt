@@ -5,18 +5,22 @@ import com.example.screenplay.action.AcceptsInvitation
 import com.example.screenplay.action.InviteFriend
 import com.example.screenplay.action.LoginSuccessfully
 import com.example.screenplay.question.GuestIsOnline
-import net.serenitybdd.junit.runners.SerenityRunner
+import net.serenitybdd.junit5.SerenityJUnit5Extension
 import net.serenitybdd.screenplay.EventualConsequence.*
 import net.serenitybdd.screenplay.GivenWhenThen.*
 import net.serenitybdd.screenplay.abilities.BrowseTheWeb
+import net.thucydides.core.annotations.Narrative
 import org.hamcrest.CoreMatchers.*
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import java.util.stream.Collectors
 
-@RunWith(SerenityRunner::class)
+@Narrative(
+  text = [
+    "example using multiple actors, one Chrome, other Firefox"]
+)
+@ExtendWith(SerenityJUnit5Extension::class)
 class LichessInvitationIT : LichessBase() {
-
 
   @Test
   fun `when we invite a friend to play`() {
@@ -29,7 +33,8 @@ class LichessInvitationIT : LichessBase() {
   }
 
   private fun printCookieForDebuggingPurposes() {
-    System.out.println(BrowseTheWeb.`as`(host).driver.manage().cookies.parallelStream().map { cookie -> cookie.toString() }.collect(Collectors.joining(", ")))
+    println(BrowseTheWeb.`as`(host).driver.manage().cookies.parallelStream().map { cookie -> cookie.toString() }
+      .collect(Collectors.joining(", ")))
 
   }
 }
