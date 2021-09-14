@@ -31,7 +31,7 @@ class ScreenplayTest {
   }
 
   @SpyK
-  var interaction = object : Interaction {
+  var interaction = object : Interaction<Ability> {
     override fun performUsingAbility(ability: Ability) {}
   }
 
@@ -111,9 +111,18 @@ class ScreenplayTest {
     }
 
     @SpyK
-    var interaction = object : Interaction {
+    var interaction = object : Interaction<Ability> {
       override fun performUsingAbility(ability: Ability) {}
     }
+
+    @SpyK
+    var listInteraction = object : Interaction<InteractWithList> {
+      override fun performUsingAbility(ability: InteractWithList) {
+        ability.list.add("")
+      }
+    }
+
+    inner class InteractWithList(val list: MutableList<String>) : Ability
 
 
     @Test
@@ -122,6 +131,16 @@ class ScreenplayTest {
       actor.perform(task)
       verify(exactly = 1) { interaction.performUsingAbility(mockAbility) }
     }
+
+    @Test
+    fun `you can specify which abilities to use`() {
+      val list = mutableListOf<String>()
+      val actor = Actor(ability = InteractWithList(list))
+      actor.perform(listInteraction)
+      assertThat(list.first(), `is`(""))
+    }
+
+
   }
 
 

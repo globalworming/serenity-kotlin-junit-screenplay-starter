@@ -1,7 +1,7 @@
-interface Interaction : Performable {
+interface Interaction<T : Ability> : Performable {
 
   override fun performAs(actor: Actor) {
-    val ability = actor.ability
+    val ability = findAbility(actor)
     when (ability) {
       null -> {
         throw UnsupportedOperationException("no ability")
@@ -10,6 +10,10 @@ interface Interaction : Performable {
     }
   }
 
-  fun performUsingAbility(ability: Ability)
+  fun findAbility(actor: Actor): T {
+    return actor.ability!! as T
+  }
+
+  fun performUsingAbility(ability: T)
 
 }
