@@ -1,4 +1,4 @@
-class Actor(val ability: Ability? = null) {
+class Actor(val abilities: MutableList<Ability> = mutableListOf()) {
 
 
   fun perform(performable: Performable) = performable.performAs(this)

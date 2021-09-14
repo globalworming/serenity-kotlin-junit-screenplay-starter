@@ -32,7 +32,7 @@ class ScreenplayTest {
 
   @SpyK
   var interaction = object : Interaction<Ability> {
-    override fun performUsingAbility(ability: Ability) {}
+    override fun performUsing(interfaze: Ability) {}
   }
 
   @Nested
@@ -45,8 +45,8 @@ class ScreenplayTest {
 
     @Test
     fun `actor has ability`() {
-      val actor = Actor(ability = mockAbility)
-      assertThat(actor.ability, `is`(not(nullValue())))
+      val actor = Actor(abilities = mutableListOf(mockAbility))
+      assertThat(actor.abilities[0], `is`(not(nullValue())))
     }
 
     @Test
@@ -72,15 +72,15 @@ class ScreenplayTest {
   inner class AbilityTest {
     @Test
     fun `ability enables interaction`() {
-      val actor = Actor(ability = mockAbility)
+      val actor = Actor(abilities = mutableListOf(mockAbility))
       actor.perform(interaction)
-      verify(exactly = 1) { interaction.performUsingAbility(mockAbility) }
+      verify(exactly = 1) { interaction.performUsing(mockAbility) }
     }
 
     @Test
     fun `no ability to interact will throw`() {
       val actor = Actor()
-      assertThrows(UnsupportedOperationException::class.java) {
+      assertThrows(NoSuchElementException::class.java) {
         actor.perform(interaction)
       }
     }
@@ -111,14 +111,15 @@ class ScreenplayTest {
     }
 
     @SpyK
-    var interaction = object : Interaction<Ability> {
-      override fun performUsingAbility(ability: Ability) {}
+    var interaction = object : Interaction<Any> {
+      override fun performUsing(interfaze: Any) {
+      }
     }
 
     @SpyK
     var listInteraction = object : Interaction<InteractWithList> {
-      override fun performUsingAbility(ability: InteractWithList) {
-        ability.list.add("")
+      override fun performUsing(interfaze: InteractWithList) {
+        interfaze.list.add("")
       }
     }
 
@@ -127,15 +128,15 @@ class ScreenplayTest {
 
     @Test
     fun `task are performed recursively`() {
-      val actor = Actor(ability = mockAbility)
+      val actor = Actor(abilities = mutableListOf(mockAbility))
       actor.perform(task)
-      verify(exactly = 1) { interaction.performUsingAbility(mockAbility) }
+      verify(exactly = 1) { interaction.performUsing(mockAbility) }
     }
 
     @Test
     fun `you can specify which abilities to use`() {
       val list = mutableListOf<String>()
-      val actor = Actor(ability = InteractWithList(list))
+      val actor = Actor(abilities = mutableListOf(InteractWithList(list)))
       actor.perform(listInteraction)
       assertThat(list.first(), `is`(""))
     }
