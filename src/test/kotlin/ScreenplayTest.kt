@@ -13,7 +13,9 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(MockKExtension::class)
 class ScreenplayTest {
 
-
+  /**
+   * A relaxed mock is the mock that returns some simple value for all functions. This allows you to skip specifying behavior for each case, while still stubbing things you need. For reference types, chained mocks are returned.
+   */
   @RelaxedMockK
   lateinit var mockQuestion: Question
 
@@ -88,6 +90,37 @@ class ScreenplayTest {
       val actor = Actor()
       actor.perform(task)
       verify(exactly = 1) { task.performAs(actor) }
+    }
+  }
+
+  @Nested
+  inner class TaskTest {
+
+    @SpyK
+    var task = object : Task {
+      override fun performAs(actor: Actor) {
+        actor.perform(subTask)
+      }
+    }
+
+    @SpyK
+    var subTask = object : Task {
+      override fun performAs(actor: Actor) {
+        actor.perform(interaction)
+      }
+    }
+
+    @SpyK
+    var interaction = object : Interaction {
+      override fun performUsingAbility(ability: Ability) {}
+    }
+
+
+    @Test
+    fun `task are performed recursively`() {
+      val actor = Actor(ability = mockAbility)
+      actor.perform(task)
+      verify(exactly = 1) { interaction.performUsingAbility(mockAbility) }
     }
   }
 
