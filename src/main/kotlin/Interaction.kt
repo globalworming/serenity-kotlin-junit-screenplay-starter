@@ -1,11 +1,6 @@
-interface Interaction<T> : Performable {
-
-  override fun performAs(actor: Actor) {
-    val interfaze = actor.abilities.first() as T
-    performUsing(interfaze)
-  }
+interface Interaction<A : Ability> : Performable {
 
 
-  fun performUsing(interfaze: T)
+  fun performUsing(ability: A)
 
 }

@@ -1,3 +1,4 @@
+import ability.BrowseTheWeb
 import io.mockk.confirmVerified
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.impl.annotations.SpyK
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.openqa.selenium.WebDriver
 
 @ExtendWith(MockKExtension::class)
 class ScreenplayTest {
@@ -32,7 +34,10 @@ class ScreenplayTest {
 
   @SpyK
   var interaction = object : Interaction<Ability> {
-    override fun performUsing(interfaze: Ability) {}
+    override fun performUsing(ability: Ability) {}
+    override fun performAs(actor: Actor) {
+      performUsing(actor.abilities.first())
+    }
   }
 
   @Nested
@@ -75,6 +80,9 @@ class ScreenplayTest {
       val actor = Actor(abilities = mutableListOf(mockAbility))
       actor.perform(interaction)
       verify(exactly = 1) { interaction.performUsing(mockAbility) }
+      verify(exactly = 1) { interaction.performAs(actor) }
+      confirmVerified(interaction)
+
     }
 
     @Test
@@ -90,6 +98,23 @@ class ScreenplayTest {
       val actor = Actor()
       actor.perform(task)
       verify(exactly = 1) { task.performAs(actor) }
+      confirmVerified(interaction)
+    }
+
+    @RelaxedMockK
+    lateinit var browser: WebDriver
+
+    @Test
+    internal fun `ability to browse with a webdriver`() {
+      val actor = Actor()
+      actor.can(BrowseTheWeb.with(browser))
+      actor.perform(object : BrowserInteraction {
+        override fun performUsing(ability: BrowseTheWeb) {
+          ability.webDriver.navigate().to("page")
+        }
+      })
+      verify(exactly = 1) { browser.navigate().to("page") }
+
     }
   }
 
@@ -111,20 +136,14 @@ class ScreenplayTest {
     }
 
     @SpyK
-    var interaction = object : Interaction<Any> {
-      override fun performUsing(interfaze: Any) {
+    var interaction = object : Interaction<Ability> {
+      override fun performUsing(ability: Ability) {}
+
+      override fun performAs(actor: Actor) {
+        performUsing(actor.abilities.first())
       }
+
     }
-
-    @SpyK
-    var listInteraction = object : Interaction<InteractWithList> {
-      override fun performUsing(interfaze: InteractWithList) {
-        interfaze.list.add("")
-      }
-    }
-
-    inner class InteractWithList(val list: MutableList<String>) : Ability
-
 
     @Test
     fun `task are performed recursively`() {
@@ -132,15 +151,6 @@ class ScreenplayTest {
       actor.perform(task)
       verify(exactly = 1) { interaction.performUsing(mockAbility) }
     }
-
-    @Test
-    fun `you can specify which abilities to use`() {
-      val list = mutableListOf<String>()
-      val actor = Actor(abilities = mutableListOf(InteractWithList(list)))
-      actor.perform(listInteraction)
-      assertThat(list.first(), `is`(""))
-    }
-
 
   }
 
