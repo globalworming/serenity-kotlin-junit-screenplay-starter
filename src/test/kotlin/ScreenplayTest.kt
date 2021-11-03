@@ -114,6 +114,7 @@ class ScreenplayTest {
         }
       })
       verify(exactly = 1) { browser.navigate().to("page") }
+      confirmVerified(browser)
 
     }
   }
