@@ -11,7 +11,7 @@ import javax.imageio.ImageIO
 class CreateSnapshot(private val snapshotFile: String) : Performable {
   override fun <T : Actor?> performAs(actor: T) {
     val driver = BrowseTheWeb.`as`(actor).driver
-    val screenShot = AShot().takeScreenshot(driver, driver.findElement(By.cssSelector("body")))
+    val screenShot = AShot().takeScreenshot(driver, listOf(driver.findElement(By.cssSelector("body"))))
     val snapshotPath = Path.of(this::class.java.getResource(".").toURI()).resolve("snapshots")
     snapshotPath.toFile().mkdirs()
     ImageIO.write(screenShot.image, "png", snapshotPath.resolve(snapshotFile).toFile())

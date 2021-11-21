@@ -26,7 +26,7 @@ open class ImageDifference(private val snapshotFile: String?) : QuestionWithDefa
       throw RuntimeException(e)
     }
     val driver = BrowseTheWeb.`as`(actor).driver
-    val screenShot = AShot().takeScreenshot(driver, driver.findElement(By.cssSelector("body"))).image
+    val screenShot = AShot().takeScreenshot(driver, listOf(driver.findElement(By.cssSelector("body")))).image
     val imgdiffer = ImageDiffer()
     val imgdiff = imgdiffer.makeDiff(expectedImage, screenShot)
     return imgdiff
