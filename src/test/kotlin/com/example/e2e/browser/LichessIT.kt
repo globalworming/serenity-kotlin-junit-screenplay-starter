@@ -13,7 +13,7 @@ import org.junit.runner.RunWith
 import org.openqa.selenium.WebDriver
 
 @RunWith(SerenityRunner::class)
-class ChessliIT {
+class LichessIT {
 
   @Managed(driver = "chrome")
   private lateinit var aBrowser: WebDriver
