@@ -1,25 +1,27 @@
 package com.example
 
+import com.example.screenplay.ability.AccessEmail
+import com.mailosaur.MailosaurClient
 import net.serenitybdd.screenplay.Actor
-import net.serenitybdd.screenplay.abilities.BrowseTheWeb
-import net.thucydides.core.annotations.Managed
+import net.serenitybdd.screenplay.actors.OnlineCast
+import net.thucydides.core.util.SystemEnvironmentVariables
 import org.junit.Before
-import org.openqa.selenium.WebDriver
 
 open class LichessBase {
-  @Managed(driver = "chrome")
-  private lateinit var aBrowser: WebDriver
 
-  @Managed(driver = "chrome")
-  private lateinit var anotherBrowser: WebDriver
 
-  val host = Actor("host")
-  val guest = Actor("Anonymous")
+  val environmentVariables = SystemEnvironmentVariables.createEnvironmentVariables()
+  val mailosaurClient = MailosaurClient(environmentVariables.getProperty("MAILOSAUR_API_KEY"))
+
+  lateinit var host: Actor
+  lateinit var guest: Actor
 
   @Before
   fun setUp() {
-    host.can(BrowseTheWeb.with(aBrowser))
-    guest.can(BrowseTheWeb.with(anotherBrowser))
+    val cast = OnlineCast()
+    host = cast.actorUsingBrowser("chrome").named("host")
+    host.can(AccessEmail.with(mailosaurClient))
+    guest = cast.actorUsingBrowser("firefox").named("guest")
+    guest.can(AccessEmail.with(mailosaurClient))
   }
-
 }
