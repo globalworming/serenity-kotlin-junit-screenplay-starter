@@ -11,6 +11,7 @@ import org.hamcrest.CoreMatchers.*
 
 open class InviteFriend : Performable {
   override fun <T : Actor> performAs(actor: T) {
+    Thread.sleep(400)
     actor.attemptsTo(Click.on(".config_friend"))
     actor.attemptsTo(Click.on(".color-submits .black"))
     actor.attemptsTo(RememberThat.theValueOf("invite url").isAnsweredBy {
