@@ -5,29 +5,21 @@ import net.serenitybdd.screenplay.Actor
 import net.serenitybdd.screenplay.Performable
 import net.serenitybdd.screenplay.actions.Click
 import net.serenitybdd.screenplay.actions.Enter
+import net.serenitybdd.screenplay.actions.Open
 import net.serenitybdd.screenplay.conditions.Check
-import net.serenitybdd.screenplay.conditions.SilentPerformable
 import net.serenitybdd.screenplay.matchers.WebElementStateMatchers.*
 import net.serenitybdd.screenplay.questions.WebElementQuestion
 import net.serenitybdd.screenplay.targets.Target
 import net.serenitybdd.screenplay.waits.Wait
-import net.thucydides.core.util.SystemEnvironmentVariables
-import org.junit.Assume
-import org.openqa.selenium.Keys
 
-open class LoginSuccessfully : SilentPerformable() {
+open class LoginSuccessfully : Performable {
   private val loginWithMagicLink = Target
       .the("login via magic link")
       .locatedBy(".alternative a[href=/auth/magic-link]")
 
   override fun <T : Actor> performAs(actor: T) {
-    val env = SystemEnvironmentVariables.createEnvironmentVariables()
-    val username = env.getValue("USERNAME")
-    val password = env.getValue("PASSWORD")
-    Assume.assumeTrue("you will need an lichess.org account to run these", username != null)
-    Assume.assumeTrue("you will need an lichess.org account to run these", password != null)
-    actor.attemptsTo(Enter.theValue(username).into("#form3-username"))
-    actor.attemptsTo(Enter.theValue(password).into("#form3-password").thenHit(Keys.ENTER))
+    actor.attemptsTo(Open.url("https://lichess.org/login"))
+    actor.attemptsTo(FillAndSubmitLoginForm())
     Check.whether(WebElementQuestion.the(loginWithMagicLink), isPresent())
         .andIfSo(
             Click.on(loginWithMagicLink),

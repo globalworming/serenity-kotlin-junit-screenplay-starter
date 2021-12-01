@@ -1,23 +1,33 @@
 package com.example.screenplay.action
 
+import net.serenitybdd.core.Serenity
 import net.serenitybdd.screenplay.Actor
-import net.serenitybdd.screenplay.GivenWhenThen.*
 import net.serenitybdd.screenplay.Performable
 import net.serenitybdd.screenplay.RememberThat
+import net.serenitybdd.screenplay.Tasks.*
 import net.serenitybdd.screenplay.actions.Click
-import net.serenitybdd.screenplay.questions.TheMemory
 import net.serenitybdd.screenplay.targets.Target
-import org.hamcrest.CoreMatchers.*
 
 open class InviteFriend : Performable {
+
+  private val pickBlackSide = Target.the("'pick black side' button").locatedBy(".color-submits .black")
+  private val setupGameForFriend = Target.the("'Play with a friend' button").locatedBy(".config_friend")
+
   override fun <T : Actor> performAs(actor: T) {
-    Thread.sleep(400)
-    actor.attemptsTo(Click.on(".config_friend"))
-    actor.attemptsTo(Click.on(".color-submits .black"))
-    actor.attemptsTo(RememberThat.theValueOf("invite url").isAnsweredBy {
-      Target.the("invite url").locatedBy("#challenge-id").resolveFor(actor).value
-    })
-    actor.should(seeThat(TheMemory.withKey("invite url").isPresent, `is`(true)))
+    Thread.sleep(1000)
+    actor.attemptsTo(Click.on(setupGameForFriend))
+    actor.attemptsTo(Click.on(pickBlackSide))
+    Serenity.reportThat("remember invite url") {
+      val inviteUrl = Target.the("invite url").locatedBy("#challenge-id").resolveFor(actor).value
+      Serenity.recordReportData().withTitle("invite url").andContents(inviteUrl)
+      actor.attemptsTo(RememberThat.theValueOf("invite url").isAnsweredBy {
+        inviteUrl
+      })
+    }
+  }
+
+  companion object {
+    fun toGame(): InviteFriend = instrumented(InviteFriend::class.java)
   }
 
 }

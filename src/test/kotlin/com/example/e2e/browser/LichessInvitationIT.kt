@@ -8,10 +8,11 @@ import com.example.screenplay.question.GuestIsOnline
 import net.serenitybdd.junit.runners.SerenityRunner
 import net.serenitybdd.screenplay.EventualConsequence.*
 import net.serenitybdd.screenplay.GivenWhenThen.*
-import net.serenitybdd.screenplay.actions.Open
+import net.serenitybdd.screenplay.abilities.BrowseTheWeb
 import org.hamcrest.CoreMatchers.*
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.stream.Collectors
 
 @RunWith(SerenityRunner::class)
 class LichessInvitationIT : LichessBase() {
@@ -19,11 +20,16 @@ class LichessInvitationIT : LichessBase() {
 
   @Test
   fun `when we invite a friend to play`() {
-    host.attemptsTo(Open.url("https://lichess.org/login"))
     host.attemptsTo(LoginSuccessfully())
-    host.attemptsTo(InviteFriend())
-    guest.attemptsTo(AcceptsInvitation.forGame(host.recall("invite url")))
+    //printCookieForDebuggingPurposes()
+    host.attemptsTo(InviteFriend.toGame())
+    val inviteUrl = host.recall<String>("invite url")
+    guest.attemptsTo(AcceptsInvitation.forGame(inviteUrl))
     host.should(eventually(seeThat(GuestIsOnline(), `is`(true))))
+  }
+
+  private fun printCookieForDebuggingPurposes() {
+    System.out.println(BrowseTheWeb.`as`(host).driver.manage().cookies.parallelStream().map { cookie -> cookie.toString() }.collect(Collectors.joining(", ")))
 
   }
 }
