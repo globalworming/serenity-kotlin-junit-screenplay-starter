@@ -24,4 +24,8 @@ open class LichessBase {
     guest = cast.actorUsingBrowser("firefox").named("guest")
     guest.can(AccessEmail.with(mailosaurClient))
   }
+
+  companion object {
+    var authCookie: String? = null
+  }
 }
