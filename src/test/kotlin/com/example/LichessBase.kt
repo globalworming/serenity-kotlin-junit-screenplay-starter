@@ -25,7 +25,4 @@ open class LichessBase {
     guest.can(AccessEmail.with(mailosaurClient))
   }
 
-  companion object {
-    var authCookie: String? = null
-  }
 }

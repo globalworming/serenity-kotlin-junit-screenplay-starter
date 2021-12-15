@@ -2,6 +2,8 @@ package com.example.e2e.browser
 
 import com.example.LichessBase
 import com.example.screenplay.action.LoginSuccessfully
+import com.example.screenplay.action.LoginSuccessfullyUsingAuthCookie
+import com.example.screenplay.actor.Memory
 import com.example.screenplay.question.TheyAreLoggedIn
 import net.serenitybdd.junit.runners.SerenityRunner
 import net.serenitybdd.screenplay.GivenWhenThen.*
@@ -25,10 +27,11 @@ class LichessAuthIT : LichessBase() {
   // }
 
   @Test
-  fun `when reusing browser session`() {
+  fun `where reusing browser session cookie skips login form`() {
     host.attemptsTo(LoginSuccessfully())
-    guest.attemptsTo(LoginSuccessfully())
-    guest.should(seeThat(TheyAreLoggedIn()))
+    guest.attemptsTo(
+        LoginSuccessfullyUsingAuthCookie(host.recall(Memory.AUTH_COOKIE_VALUE)))
+    guest.should(seeThat<Boolean>(TheyAreLoggedIn()))
   }
 
 }
