@@ -10,8 +10,7 @@ import net.serenitybdd.screenplay.Performable
 open class LoginSuccessfully : Performable {
 
   override fun <T : Actor> performAs(actor: T) {
-    actor.attemptsTo(NavigateToLoginPage())
-    actor.attemptsTo(FillAndSubmitLoginForm())
+    actor.attemptsTo(Login())
     actor.remember(Memory.AUTH_COOKIE_VALUE, CurrentAuthCookieValue())
     actor.should(seeThat<Boolean>(TheyAreLoggedIn()))
   }
