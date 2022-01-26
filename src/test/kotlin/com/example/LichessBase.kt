@@ -14,6 +14,7 @@ open class LichessBase {
 
   val environmentVariables = SystemEnvironmentVariables.createEnvironmentVariables()
   val mailosaurClient = MailosaurClient(environmentVariables.getValue("MAILOSAUR_API_KEY"))
+  val mailosaurServerId = environmentVariables.getValue("MAILOSAUR_SERVER")
 
   lateinit var host: Actor
   lateinit var guest: Actor
@@ -26,8 +27,8 @@ open class LichessBase {
 
     Stream.of(host, guest).forEach {
       it.can(AccessEmail.with(mailosaurClient))
-      it.remember(Memory.MAILOSAUR_SERVER, "thktud08")
-      it.remember(Memory.MAILOSAUR_DOMAIN, "thktud08.mailosaur.net")
+      it.remember(Memory.MAILOSAUR_SERVER, mailosaurServerId)
+      it.remember(Memory.MAILOSAUR_DOMAIN, "$mailosaurServerId.mailosaur.net")
     }
 
     host.can(AccessEmail.with(mailosaurClient))

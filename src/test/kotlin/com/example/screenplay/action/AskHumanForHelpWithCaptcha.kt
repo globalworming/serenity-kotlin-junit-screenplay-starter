@@ -10,11 +10,17 @@ import org.hamcrest.CoreMatchers.*
 import org.openqa.selenium.JavascriptExecutor
 
 open class AskHumanForHelpWithCaptcha : Performable {
-  override fun <T : Actor> performAs(actor: T) {
-    val driver = BrowseTheWeb.`as`(actor).driver as JavascriptExecutor
-    driver.executeScript("alert('hey human, \\ncould you please solve the captcha')")
-    actor.should(eventually(seeThat(CaptchaIsSolved(), `is`(true)))
-        .waitingForNoLongerThan(30).seconds())
+  override fun <T : Actor> performAs(bot: T) {
+    alertHuman(bot)
+    bot.should(eventually(seeThat(CaptchaIsSolved(), `is`(true)))
+        .waitingForNoLongerThan(600).seconds())
+  }
+
+
+  private fun <T : Actor> alertHuman(bot: T) {
+    val driver = BrowseTheWeb.`as`(bot)
+        .driver as JavascriptExecutor
+    driver.executeScript("alert('Hey human, would you please be so kind to solve the captcha for me? That\\'s really hard for me to do, all these samey looking pictures.. urgh.\\n\\nI would suggest turning off captchas for browser automation.\\n\\nYours truly\\nBOT')")
   }
 
 }
