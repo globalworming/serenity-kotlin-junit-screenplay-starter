@@ -6,7 +6,7 @@ import com.example.screenplay.action.Login
 import com.example.screenplay.action.LoginSuccessfully
 import com.example.screenplay.action.LoginSuccessfullyUsingAuthCookie
 import com.example.screenplay.action.NavigateToMagicMailLink
-import com.example.screenplay.action.ReceivesMagicLinkEmail
+import com.example.screenplay.action.ReceiveMagicLinkEmail
 import com.example.screenplay.actor.Memory
 import com.example.screenplay.question.TheyAreLoggedIn
 import com.example.screenplay.question.TooManyRequestsMessageIsVisible
@@ -39,7 +39,7 @@ class LichessAuthIT : LichessBase() {
 
   @Test
   fun `where we login via email magic link`() {
-    givenThat(host).wasAbleTo(ReceivesMagicLinkEmail())
+    givenThat(host).wasAbleTo(ReceiveMagicLinkEmail())
     host.attemptsTo(NavigateToMagicMailLink())
     host.should(seeThat(TheyAreLoggedIn(), `is`(true)))
   }

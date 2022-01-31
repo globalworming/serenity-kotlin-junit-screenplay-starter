@@ -27,12 +27,15 @@ open class LichessBase {
 
     Stream.of(host, guest).forEach {
       it.can(AccessEmail.with(mailosaurClient))
-      it.remember(Memory.MAILOSAUR_SERVER, mailosaurServerId)
+      it.remember(Memory.MAILOSAUR_SERVER_ID, mailosaurServerId)
       it.remember(Memory.MAILOSAUR_DOMAIN, "$mailosaurServerId.mailosaur.net")
     }
 
+    host.remember(Memory.EMAIL_ADDRESS, "energy-eat@$mailosaurServerId.mailosaur.net")
     host.can(AccessEmail.with(mailosaurClient))
     guest.can(AccessEmail.with(mailosaurClient))
+
+    mailosaurClient.messages().deleteAll(mailosaurServerId)
   }
 
 }
