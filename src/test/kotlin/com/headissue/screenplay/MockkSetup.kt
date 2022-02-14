@@ -1,11 +1,11 @@
 package com.headissue.screenplay
 
 import io.mockk.MockKAnnotations
-import org.junit.Before
+import org.junit.jupiter.api.BeforeEach
 
 open class MockkSetup {
 
-  @Before
+  @BeforeEach
   fun setUp() = MockKAnnotations.init(this, relaxUnitFun = true)
 
 }
